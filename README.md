@@ -8,6 +8,8 @@ Bitte beachte: Codespaces ist **nicht** dafür gedacht, öffentliche Websites zu
 
 Dieses Tutorial zeigt, wie du Datasette in einem Codespace installierst und ausführst.
 
+**Für die ganz Mutigen (ohne zu restriktive Laptops): Versucht es gerne direkt lokal auf dem Computer (ohne Codespaces).**
+
 ---
 
 ## Schritt 1: Codespace erstellen
@@ -111,10 +113,6 @@ See for yourself
 datasette data.db
 ```
 
-Nun kannst du auch schon mit Facetten spielen. Was passiert zum Beispiel, wenn du bei **Suggested facets** auf `OBJEKTART` klickst?
-
-Wenn gewünscht und Zeit, können auch die anderen beiden Tabellen noch hinzugefügt werden. Bennene die beiden anderen Tabellen `punkte` & `polygone`.
-
 ---
 
 ## Schritt 5: Plugins installieren
@@ -134,16 +132,14 @@ datasette install datasette-cluster-map
 ```
 um Karten anzuzeigen.
 
-Installiere weitere gewünschten [Plugins](https://datasette.io/plugins), falls die Zeit es erlaubt.
-
 ---
 
 ## Schritt 6: Daten auf einer Karte anzeigen
 
-Starte Datasette erneut. Dieses Mal aber als `root`:
+Starte Datasette erneut:
 
 ```bash
-datasette data.db --root
+datasette data.db
 ```
 
 Öffne in Datasette die Tabelle **linien**.
@@ -159,27 +155,17 @@ Klicke auf das Zahnrad-Symbol → *Edit table schema* → Änderungen übernehme
 
 <img src="https://github.com/DCC-BS/codespaces-datasette/blob/main/edit_schema.png?raw=true" alt="Tabellenschema ändern" width=50% height=50%>
 
-Wenn das geklappt hat, kannst du gleich nochmal den Datasette-Server mit **Ctrl+C** im entsprechenden Terminal stoppen.
-
-Nun wollen wir die Koordinaten vom schweizerisch-liechtensteinischen Georeferenzsystem (EPSG:2056) auf das globale Koordinatensystem (EPSG:4326) übersetzen, damit die Karte nachher auch funktioniert. Auch dies können wir mit `sqlite-utils`
-
-```bash
-sqlite-utils query data.db "SELECT InitSpatialMetaData(1);" --load-extension=mod_spatialite.dll 
-```
-
-und dann
-
-```bash
-sqlite-utils query data.db "UPDATE linien SET longitude = X(ST_Transform(MakePoint(longitude, latitude, 2056), 4326)), latitude = Y(ST_Transform(MakePoint(longitude, latitude, 2056), 4326));" --load-extension=mod_spatialite.dll 
-```
-
-Dann kannst du `datasette` wieder starten. Dann aber mit folgender Flag:
-
-```bash
-datasette data.db --load-extension=mod_spatialite.dll 
-```
+Je nachdem muss man `datasette` als `root` starten: `datasette data.db --root`. Hier auf Codespaces sollte dies auch ohne gehen.
 
 Zurück in der Tabellenansicht solltest du nun eine Karte der Schweiz sehen, mit allen Koordinaten der Linien.
+
+## Schritt 7: Have fun, if time!
+
+Wenn nicht schon getan, kannst du mit Facetten spielen. Was passiert zum Beispiel, wenn du bei **Suggested facets** auf `OBJEKTART` klickst?
+
+Wenn gewünscht und Zeit, können analog zu Schritt 4 auch die anderen beiden Tabellen noch hinzugefügt werden. Bennene die beiden anderen Tabellen `punkte` & `polygone`.
+
+Installiere weitere gewünschten [Plugins](https://datasette.io/plugins).
 
 ---
 
