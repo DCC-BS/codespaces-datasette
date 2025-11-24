@@ -45,6 +45,7 @@ Installiere anschliessend das Codespaces-Plugin:
 ```bash
 datasette install datasette-codespaces
 ```
+Das Plugin datasette-codespaces nimmt einige kleine Änderungen an Datasette vor, damit es in der Codespaces-Umgebung besser läuft. Sie können Datasette auch ohne dieses Plugin ausführen, aber dabei können frustrierende Probleme auftreten, z. B. dass interne Links nicht richtig funktionieren.
 
 ---
 
