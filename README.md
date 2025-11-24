@@ -18,7 +18,11 @@ Du kannst den Codespace dieser Repository `DCC-BS/codespaces-datasette` nutzen o
 
 Klicke anschliessend auf **Code → Codespaces → Create codespace on main**, um einen neuen Codespace zu starten.
 
+<img src="https://github.com/DCC-BS/codespaces-datasette/blob/main/get-started.jpg?raw=true" alt="Codespace öffnen" width=30% height=30%>
+
 Nach kurzer Wartezeit erscheint die Codespaces-Umgebung – wir arbeiten ausschliesslich im Terminal-Bereich unten auf der Seite.
+
+<img src="https://github.com/DCC-BS/codespaces-datasette/blob/main/codespaces-ui.jpg?raw=true" alt="Codespaces UI" width=50% height=50%>
 
 ---
 
@@ -54,6 +58,8 @@ datasette data.db --create
 
 Falls die Datenbank `data.db` noch nicht existiert, wird sie automatisch angelegt.
 
+<img src="https://github.com/DCC-BS/codespaces-datasette/blob/main/start-datasette.jpg?raw=true" alt="Datasette in neuem Tab öffnen" width=70% height=70%>
+
 Codespaces zeigt dir einen Hinweis an, dass eine Anwendung auf Port 8001 läuft – klicke auf **Open in Browser**.
 
 Falls kein Button sichtbar ist, nutze den Tab **Ports** in der Codespaces-Ansicht.
@@ -66,7 +72,7 @@ Wir wollen nun folgende Daten in unsere Datasette-Instanz bekommen: [swissNAMES3
 
 Datasette startet mit einer leeren Datenbank – also fügen wir Daten hinzu.
 
-Beende die laufende Datasette-Instanz mit **Ctrl+C**.
+Beende die laufende Datasette-Instanz, indem du die Tastenkombination **Ctrl+C** im laufenden Terminal betätigst.
 
 Installiere `sqlite-utils`:
 
@@ -102,7 +108,8 @@ Wenn gewünscht, können auch die anderen beiden Tabellen noch hinzugefügt werd
 
 Stoppe den Datasette-Server mit **Ctrl+C** im entsprechenden Terminal.
 
-Leider sind die Koordinaten (in den Spalten `E` und `N`) noch nicht nutzbar für Datasette, um sie toll auf einer Karte darzustellen. Deswegen wollen wir noch folgende Plugins installieren:
+Leider sind die Koordinaten (in den Spalten `E` und `N`) noch nicht nutzbar für Datasette, um sie toll auf einer Karte darzustellen. 
+Deswegen wollen wir noch folgende Plugins installieren:
 
 ```bash
 datasette install datasette-edit-schema
@@ -114,17 +121,17 @@ datasette install datasette-cluster-map
 ```
 um Karten anzuzeigen.
 
-Installiere weitere gewünschten [Plugins](https://datasette.io/plugins).
-
-Starte Datasette erneut:
-
-```bash
-datasette data.db
-```
+Installiere weitere gewünschten [Plugins](https://datasette.io/plugins), falls die Zeit es erlaubt.
 
 ---
 
 ## Schritt 6: Daten auf einer Karte anzeigen
+
+Starte Datasette erneut dieses Mal aber als `root`:
+
+```bash
+datasette data.db --root
+```
 
 Öffne in Datasette die Tabelle **linien**.
 
@@ -136,6 +143,28 @@ Nutze das Schema-Editor-Plugin, um die Spalten umzubenennen:
 * `N` → `latitude`
 
 Klicke auf das Zahnrad-Symbol → *Edit table schema* → Änderungen übernehmen.
+
+<img src="https://github.com/DCC-BS/codespaces-datasette/blob/main/edit_schema.png?raw=true" alt="Tabellenschema ändern" width=50% height=50%>
+
+Wenn das geklappt hat, kannst du gleich nochmal den Datasette-Server mit **Ctrl+C** im entsprechenden Terminal stoppen.
+
+Nun wollen wir die Koordinaten vom schweizerisch-liechtensteinischen Georeferenzsystem (EPSG:2056) auf das globale Koordinatensystem (EPSG:4326) übersetzen, damit die Karte nachher auch funktioniert. Auch dies können wir mit `sqlite-utils`
+
+```bash
+sqlite-utils query data.db "SELECT InitSpatialMetaData(1);" --load-extension=mod_spatialite.dll 
+```
+
+und dann
+
+```bash
+sqlite-utils query data.db "UPDATE linien SET longitude = X(ST_Transform(MakePoint(longitude, latitude, 2056), 4326)), latitude = Y(ST_Transform(MakePoint(longitude, latitude, 2056), 4326));" --load-extension=mod_spatialite.dll 
+```
+
+Dann kannst du `datasette` wieder starten. Dann aber mit folgender Flag:
+
+```bash
+datasette data.db --load-extension=mod_spatialite.dll 
+```
 
 Zurück in der Tabellenansicht solltest du nun eine Karte der Schweiz sehen, mit allen Koordinaten der Linien.
 
