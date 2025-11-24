@@ -1,36 +1,34 @@
 # Verwendung von Datasette in GitHub Codespaces
 
-GitHub Codespaces ist ein kostenloses Tool von GitHub, das dir eine vollständige Linux-Entwicklungsumgebung in der Cloud bereitstellt – vollständig im Browser.
+GitHub Codespaces bietet dir eine vollwertige Linux-Entwicklungsumgebung direkt im Browser – ideal, um mit Datasette zu starten und eigene Daten privat zu erkunden.
+**Wichtig:** Codespaces ist **nicht** zum Hosten öffentlicher Websites gedacht. Jede gestartete Datasette-Instanz bleibt privat.
 
-Es eignet sich hervorragend, um mit Datasette zu starten, insbesondere als private Instanz zum Erkunden und Analysieren eigener Daten.
-
-Bitte beachte: Codespaces ist **nicht** dafür gedacht, öffentliche Websites zu hosten. Alle in einem Codespace gestarteten Datasette-Instanzen sind ausschliesslich privat zugänglich.
-
-Dieses Tutorial zeigt, wie du Datasette in einem Codespace installierst und ausführst.
+Dieses Tutorial zeigt dir, wie du Datasette in einem Codespace installierst, Daten importierst und auf einer Karte visualisierst.
 
 **Für die ganz Mutigen (ohne zu restriktive Laptops): Versucht es gerne direkt lokal auf dem Computer (ohne Codespaces).**
 
 ---
 
-## Schritt 1: Codespace erstellen
+## 🏁 Schritt 1: Codespace erstellen
 
-Jeder Codespace muss mit einem GitHub-Repository verknüpft sein.
+Jeder Codespace ist an ein GitHub-Repository gebunden.
 
-Du kannst den Codespace dieser Repository `DCC-BS/codespaces-datasette` nutzen oder diese Repository gleich forken, um mit eigenen Daten zu arbeiten.
+Du kannst direkt dieses Repository `DCC-BS/codespaces-datasette` nutzen oder es forken, wenn du mit eigenen Daten arbeiten willst.
 
-Klicke anschliessend auf **Code → Codespaces → Create codespace on main**, um einen neuen Codespace zu starten.
+Klicke danach auf **Code → Codespaces → Create codespace on main**.
 
-<img src="https://github.com/DCC-BS/codespaces-datasette/blob/main/get-started.jpg?raw=true" alt="Codespace öffnen" width=30% height=30%>
+<img src="https://github.com/DCC-BS/codespaces-datasette/blob/main/get-started.jpg?raw=true" alt="Codespace oeffnen" width=30% height=30%>
 
-Nach kurzer Wartezeit erscheint die Codespaces-Umgebung – wir arbeiten ausschliesslich im Terminal-Bereich unten auf der Seite.
+Nach wenigen Momenten erscheint die Codespaces-Umgebung.
+Wir arbeiten ausschliesslich im Terminal-Bereich.
 
 <img src="https://github.com/DCC-BS/codespaces-datasette/blob/main/codespaces-ui.jpg?raw=true" alt="Codespaces UI" width=50% height=50%>
 
 ---
 
-## Schritt 2: Datasette installieren
+## 📦 Schritt 2: Datasette installieren
 
-Zuerst installieren wir Datasette:
+Installiere zuerst Datasette:
 
 ```bash
 pipx install datasette
@@ -42,38 +40,38 @@ Prüfe die Installation:
 datasette --version
 ```
 
-Installiere anschliessend das Codespaces-Plugin:
+Installiere danach das Codespaces-Plugin:
 
 ```bash
 datasette install datasette-codespaces
 ```
-Das Plugin datasette-codespaces nimmt einige kleine Änderungen an Datasette vor, damit es in der Codespaces-Umgebung besser läuft. Sie können Datasette auch ohne dieses Plugin ausführen, aber dabei können frustrierende Probleme auftreten, z. B. dass interne Links nicht richtig funktionieren.
+
+💡 *Das Plugin verbessert interne Links in Codespaces. Ohne dieses Plugin kann es zu kleinen Stolpersteinen kommen.*
 
 ---
 
-## Schritt 3: Datasette starten
+## 🚀 Schritt 3: Datasette starten
 
-Starte Datasette mit:
+Starte Datasette:
 
 ```bash
 datasette data.db --create
 ```
 
-Falls die Datenbank `data.db` noch nicht existiert, wird sie automatisch angelegt.
+Falls `data.db` noch nicht existiert, wird die Datei automatisch erstellt.
 
-<img src="https://github.com/DCC-BS/codespaces-datasette/blob/main/start-datasette.jpg?raw=true" alt="Datasette in neuem Tab öffnen" width=70% height=70%>
+<img src="https://github.com/DCC-BS/codespaces-datasette/blob/main/start-datasette.jpg?raw=true" alt="Datasette starten" width=70% height=70%>
 
-Codespaces zeigt dir einen Hinweis an, dass eine Anwendung auf Port 8001 läuft – klicke auf **Open in Browser**.
-
-Falls kein Button sichtbar ist, nutze den Tab **Ports** in der Codespaces-Ansicht.
+Codespaces zeigt nun an, dass Port 8001 aktiv ist – klicke auf **Open in Browser**.
+Falls kein Button erscheint: nutze den Tab **Ports**.
 
 ---
 
-## Schritt 4: Daten importieren
+## 📥 Schritt 4: Daten importieren
 
 Datasette startet mit einer leeren Datenbank – also fügen wir Daten hinzu.
 
-Wir wollen folgende Daten in unsere sqlite-Datenbank bekommen: [swissNAMES3D](https://www.swisstopo.admin.ch/de/landschaftsmodell-swissnames3d). 
+Wir wollen folgende Daten in unsere sqlite-Datenbank laden: [swissNAMES3D](https://www.swisstopo.admin.ch/de/landschaftsmodell-swissnames3d). 
 
 Wir haben vorher lediglich die Daten von Semikolon-separiert zu Komma-separiert geändert.
 
@@ -87,13 +85,13 @@ Installiere `sqlite-utils`:
 pipx install sqlite-utils
 ```
 
-Bestätige die Installation:
+Prüfe:
 
 ```bash
 sqlite-utils --version
 ```
 
-Importiere die bereitgestellten Daten in die vorher erstellte Datenbank:
+Importiere die vorbereiteten swissNAMES3D-Liniendaten:
 
 ```bash
 sqlite-utils insert data.db linien \
@@ -101,13 +99,10 @@ sqlite-utils insert data.db linien \
     --csv -d
 ```
 
-Dies erzeugt eine Tabelle `linien` mit allen Liniengeometrien des swissNAMES3D-Datensatzes. Dies beinhaltet unter anderem:
+Damit entsteht eine Tabelle `linien` mit allen Liniengeometrien:
+Brücken, Tunnel, Seilbahnen, Sportanlagen, Fliessgewässer und mehr.
 
-* Namen von Verkehrsbauten (Brücken, Tunnels, Seilbahnen, usw.)
-* Namen von Sportanlagen
-* Namen von Fliessgewässern
-
-See for yourself
+**See for yourself!**
 
 ```bash
 datasette data.db
@@ -115,26 +110,27 @@ datasette data.db
 
 ---
 
-## Schritt 5: Plugins installieren
+## 🔌 Schritt 5: Plugins installieren
 
-Stoppe den Datasette-Server mit **Ctrl+C** im entsprechenden Terminal, wenn er noch läuft.
+Stoppe Datasette bei Bedarf mit **Ctrl+C**.
 
-Leider sind die Koordinaten (in den Spalten `E` und `N`) noch nicht nutzbar für Datasette, um sie toll auf einer Karte darzustellen. 
-Deswegen wollen wir noch folgende Plugins installieren:
+Installiere zwei benötigte Plugins:
+
+**1. Schema-Editor (zum Spalten umbenennen)**
 
 ```bash
 datasette install datasette-edit-schema
 ```
-um die Spaltennamen zu ändern
+
+**2. Cluster-Map (für Kartenansicht)**
 
 ```bash
 datasette install datasette-cluster-map
 ```
-um Karten anzuzeigen.
 
 ---
 
-## Schritt 6: Daten auf einer Karte anzeigen
+## 🗺️ Schritt 6: Daten auf einer Karte anzeigen
 
 Starte Datasette erneut:
 
@@ -142,30 +138,39 @@ Starte Datasette erneut:
 datasette data.db
 ```
 
-Öffne in Datasette die Tabelle **linien**.
+Öffne die Tabelle **linien**.
 
-Sie enthält Spalten **E** und **N**, die Längen- und Breitengradwerte darstellen – der Cluster-Map-Renderer benötigt jedoch **longitude** und **latitude**.
+Die Spalten heissen aktuell **E** (Längengrad) und **N** (Breitengrad).
+Für die Kartenansicht benötigt Datasette jedoch **longitude** und **latitude**.
 
-Nutze das Schema-Editor-Plugin, um die Spalten umzubenennen:
+Benenne die Spalten um:
 
 * `E` → `longitude`
 * `N` → `latitude`
 
-Klicke auf das Zahnrad-Symbol → *Edit table schema* → Änderungen übernehmen.
+Vorgehen: Zahnrad anklicken → *Edit table schema* → speichern.
 
-<img src="https://github.com/DCC-BS/codespaces-datasette/blob/main/edit_schema.png?raw=true" alt="Tabellenschema ändern" width=50% height=50%>
+<img src="https://github.com/DCC-BS/codespaces-datasette/blob/main/edit_schema.png?raw=true" alt="Schema aendern" width=50% height=50%>
 
-Je nachdem muss man `datasette` als `root` starten: `datasette data.db --root`. Hier auf Codespaces sollte dies auch ohne gehen.
+💡 Falls nötig, kannst du Datasette auch als root starten:
 
-Zurück in der Tabellenansicht solltest du nun eine Karte der Schweiz sehen, mit allen Koordinaten der Linien.
+```bash
+datasette data.db --root
+```
 
-## Schritt 7: Have fun, if time!
+Sobald die Spalten umbenannt sind, sollte die Karte der Schweiz mit allen Linien erscheinen.
 
-Wenn nicht schon getan, kannst du mit Facetten spielen. Was passiert zum Beispiel, wenn du bei **Suggested facets** auf `OBJEKTART` klickst?
+---
 
-Wenn gewünscht und Zeit, können analog zu Schritt 4 auch die anderen beiden Tabellen noch hinzugefügt werden. Bennene die beiden anderen Tabellen `punkte` & `polygone`.
+## 🎉 Schritt 7: Explore!
 
-Installiere weitere gewünschten [Plugins](https://datasette.io/plugins).
+Probiere die **Facetten** aus.
+Was passiert, wenn du unter *Suggested facets* auf `OBJEKTART` klickst?
+
+Wenn Zeit ist, kannst du auch die beiden anderen Tabellen importieren und sie `punkte` und `polygone` nennen – ganz analog zu Schritt 4.
+
+Und falls du mehr brauchst: Entdecke weitere Plugins hier:
+[https://datasette.io/plugins](https://datasette.io/plugins)
 
 ---
 
