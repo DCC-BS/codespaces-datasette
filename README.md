@@ -139,6 +139,6 @@ Klicke auf das Zahnrad-Symbol → *Edit table schema* → Änderungen übernehme
 
 Zurück in der Tabellenansicht solltest du nun eine Karte der Schweiz sehen, mit allen Koordinaten der Linien.
 
-
+---
 
 Dieses Tutorial basiert auf folgendem Tutorial: [Using Datasette in GitHub Codespaces](https://datasette.io/tutorials/codespaces).
