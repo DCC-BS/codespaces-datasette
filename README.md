@@ -69,11 +69,15 @@ Falls kein Button sichtbar ist, nutze den Tab **Ports** in der Codespaces-Ansich
 
 ## Schritt 4: Daten importieren
 
-Wir wollen nun folgende Daten in unsere Datasette-Instanz bekommen: [swissNAMES3D](https://www.swisstopo.admin.ch/de/landschaftsmodell-swissnames3d). Wir haben lediglich die Daten von Semikolon-separiert zu Komma-separiert geändert und hier hochgeladen.
-
 Datasette startet mit einer leeren Datenbank – also fügen wir Daten hinzu.
 
-Beende die laufende Datasette-Instanz, indem du die Tastenkombination **Ctrl+C** im laufenden Terminal betätigst.
+Wir wollen folgende Daten in unsere sqlite-Datenbank bekommen: [swissNAMES3D](https://www.swisstopo.admin.ch/de/landschaftsmodell-swissnames3d). 
+
+Wir haben vorher lediglich die Daten von Semikolon-separiert zu Komma-separiert geändert.
+
+Wir haben auch die Koordinaten vom schweizerisch-liechtensteinischen Georeferenzsystem (EPSG:2056) auf das globale Koordinatensystem (EPSG:4326) übersetzt, damit die Karte nachher auch funktioniert. Auch dies können wir mit `sqlite-utils`, aber leider nicht hier auf Codespaces.
+
+Beende die laufende Datasette-Instanz mit der leeren Datenbank, indem du die Tastenkombination **Ctrl+C** im laufenden Terminal betätigst.
 
 Installiere `sqlite-utils`:
 
@@ -101,13 +105,21 @@ Dies erzeugt eine Tabelle `linien` mit allen Liniengeometrien des swissNAMES3D-D
 * Namen von Sportanlagen
 * Namen von Fliessgewässern
 
-Wenn gewünscht, können auch die anderen beiden Tabellen noch hinzugefügt werden. Bennene die beiden anderen Tabellen `punkte` & `polygone`.
+See for yourself
+
+```bash
+datasette data.db
+```
+
+Nun kannst du auch schon mit Facetten spielen. Was passiert zum Beispiel, wenn du bei **Suggested facets** auf `OBJEKTART` klickst?
+
+Wenn gewünscht und Zeit, können auch die anderen beiden Tabellen noch hinzugefügt werden. Bennene die beiden anderen Tabellen `punkte` & `polygone`.
 
 ---
 
 ## Schritt 5: Plugins installieren
 
-Stoppe den Datasette-Server mit **Ctrl+C** im entsprechenden Terminal.
+Stoppe den Datasette-Server mit **Ctrl+C** im entsprechenden Terminal, wenn er noch läuft.
 
 Leider sind die Koordinaten (in den Spalten `E` und `N`) noch nicht nutzbar für Datasette, um sie toll auf einer Karte darzustellen. 
 Deswegen wollen wir noch folgende Plugins installieren:
@@ -128,7 +140,7 @@ Installiere weitere gewünschten [Plugins](https://datasette.io/plugins), falls 
 
 ## Schritt 6: Daten auf einer Karte anzeigen
 
-Starte Datasette erneut dieses Mal aber als `root`:
+Starte Datasette erneut. Dieses Mal aber als `root`:
 
 ```bash
 datasette data.db --root
