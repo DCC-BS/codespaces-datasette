@@ -17,8 +17,10 @@ Jeder Codespace ist an ein GitHub-Repository gebunden.
 Du kannst direkt dieses Repository `DCC-BS/codespaces-datasette` nutzen oder es forken, wenn du deinen Fortschritt bewahren willst. 
 Falls du einen Fork des Repositories erstellen möchtest, kannst du auf den Button **Fork** oben rechts klicken und dann auf den Button **Create Fork**.
 
-<img width="420" height="76" alt="image" src="https://github.com/user-attachments/assets/c4a65918-1608-457a-b0e5-9741c5da82a7" />
+<img width="420" height="76" alt="image" src="https://github.com/user-attachments/assets/c4a65918-1608-457a-b0e5-9741c5da82a7">
 
+<br>
+<br>
 
 Klicke nun auf **Code → Codespaces → Create codespace on main**.
 
@@ -186,10 +188,18 @@ Und falls du mehr brauchst: Entdecke weitere Plugins hier:
 ## Schritt 8: Schlussbemerkungen
 
 **Warum werden nicht alle Datenpunkte in der Karte gezeigt?** Datasette hat als Standardeinstellung eine Zeilenbeschränkung auf 101 Zeilen. Diese kann bei der SQL-Query (View and Edit SQL) angepasst werden.
+
 <img width="1505" height="117" alt="image" src="https://github.com/user-attachments/assets/f5f87074-e7b1-4027-b064-74ecb303a3f7" />
 
+<br>
+<br>
+
 **Wie kann die Arbeit in Codespaces gespeichert werden?** Falls das Repository am Anfang geforked wurde, kann am linken Seitenrand auf das Icon für die Quellcodeverwaltung geklickt werden. Danach können die Änderungen gestaged, commited und gepushed werden.
+
 <img width="343" height="187" alt="image" src="https://github.com/user-attachments/assets/3df1d5a6-2aa5-4f17-add7-a9488330caa2" />
+
+<br>
+<br>
 
 **Können auch eigene csv-Dateien in diesen Codespace geladen und betrachtet werden?** Ja, indem lokal gespeicherte csv-Dateien in die Seitenleiste am linken Bildrand gezogen wird. Diese können dann analog zu den vorbereiteten Dateien in Datasette geladen werden. Es ist wichtig, dass die csv-Dateien Komma-separiert sind. Für Kartendaten braucht es Koordinaten im globalen System mit den Spaltennamen `longitude` und `latitude`.
 
