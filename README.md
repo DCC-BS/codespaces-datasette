@@ -202,6 +202,20 @@ Und falls du mehr brauchst: Entdecke weitere Plugins hier:
 <br>
 
 **Können auch eigene csv-Dateien in diesen Codespace geladen und betrachtet werden?** Ja, indem lokal gespeicherte csv-Dateien in die Seitenleiste am linken Bildrand gezogen wird. Diese können dann analog zu den vorbereiteten Dateien in Datasette geladen werden. Es ist wichtig, dass die csv-Dateien Komma-separiert sind. Für Kartendaten braucht es Koordinaten im globalen System mit den Spaltennamen `longitude` und `latitude`.
+Hierfür kann das vorbereitete Skript, `pre-processing.py` genutzt werden. Die Argumente, die man dem Skript mitgeben soll, kann man mit folgendem Befehl aufrufen:
+```bash
+pip install -r requirements.txt
+python pre-processing.py --help
+```
+Um die Files `swissNAMES3D_*.csv` zu erhalten, die gerade hier liegen wurden folgende Befehle ausgeführt:
+```bash
+python pre-processing.py swissNAMES3D_LIN.csv --sep ";" --coord-cols "E" "N" --epsg-in 2056
+python pre-processing.py swissNAMES3D_PKT.csv --sep ";" --coord-cols "E" "N" --epsg-in 2056
+python pre-processing.py swissNAMES3D_PLY.csv --sep ";" --coord-cols "E" "N" --epsg-in 2056
+```
+
+**Wo finde ich die Dokumentation von Datasette?**
+[docs.datasette.io](https://docs.datasette.io)
 
 ---
 Dieses Tutorial basiert auf folgendem Tutorial: [Using Datasette in GitHub Codespaces](https://datasette.io/tutorials/codespaces).
